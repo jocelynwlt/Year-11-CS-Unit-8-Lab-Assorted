@@ -14,7 +14,12 @@ public class Assorted {
      *         integer data types.
      */
     public static int findSum(List<?> list) {
-        return 0;
+        int sum = 0;
+        for(int i=0; i<list.size();i++){
+            int temp = Integer.parseInt(list.get(i).toString());
+            sum+=temp;
+        }
+        return sum;
     }
 
     /**
@@ -26,7 +31,13 @@ public class Assorted {
      * @return a list containing integers only.
      */
     public static List<Integer> filterStrings(List list) {
-        return null;
+        ArrayList<Integer> newList = new ArrayList<>();
+        for (int i =0; i<list.size();i++){
+            if(list.get(i)instanceof Integer == true){
+                newList.add((Integer) list.get(i));
+            }
+        }
+        return newList;
     }
 
     /**
@@ -39,7 +50,11 @@ public class Assorted {
      *         e.g. ["1: a", "2: b", "3: c"]
      */
     public static List<String> lineNumbering(List<String> list) {
-        return null;
+        ArrayList<String> newList = new ArrayList<>();
+        for(int i=0; i<list.size();i++){
+            newList.add(i+1+": "+list.get(i));
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -61,7 +76,13 @@ public class Assorted {
      * @return the number of people who are still on the bus after the last stop.
      */
     public static int busStop(List<Integer[]> list) {
-        return 0;
+        int total =0;
+        for(Integer [] stop : list){
+            int in = stop[0];
+            int out = stop[1];
+            total += in-out;
+        }
+        return total;
     }
 
     /**
@@ -73,7 +94,12 @@ public class Assorted {
      *         Eg: [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1.
      */
     public static int toBinary(List<Integer> list) {
-        return 0;
+        int output =0;
+        for (int i = 0; i<list.size();i++){
+            int bit = list.get(i);
+            output += bit * Math.pow(2, list.size() - 1 - i);
+        }
+        return output;
     }
 
     /**
