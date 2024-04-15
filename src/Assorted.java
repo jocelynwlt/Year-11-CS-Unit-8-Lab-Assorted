@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Assorted {
@@ -118,7 +120,15 @@ public class Assorted {
      *              subtractList([1,2,2,2,3], [2]) returns [1,3]
      */
     public static List<Integer> subtractList(List<Integer> listA, List<Integer> listB) {
-        return null;
+        ArrayList<Integer> output = new ArrayList<>();
+        if(listA.size()>=listB.size()){
+            for (int i=0; i<listA.size();i++){
+                if(!listB.contains(listA.get(i))){
+                    output.add(listA.get(i));
+                }
+            }
+        }
+        return output;
     }
 
     /**
@@ -131,8 +141,40 @@ public class Assorted {
      * @return a list where the odd integers have been sorted in ascending order and the even
      *         integers remain in their original position.
      */
-    public static List<Integer> sortOdd(List<Integer> list) {
-        return null;
+    public static List<Integer> sortOdd(List<Integer> list)
+    {
+        List<Integer> oddList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (list.get(i) % 2 != 0)
+            {
+                oddList.add(list.get(i));
+            }
+        }
+        for (int x = 0; x < oddList.size() - 1; x++)
+        {
+            for (int y = 0; y < oddList.size() - x - 1; y++)
+            {
+                if (oddList.get(y) > oddList.get(y + 1))
+                {
+                    int temp = oddList.get(y);
+                    oddList.set(y, oddList.get(y + 1));
+                    oddList.set(y + 1, temp);
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 0; i < list.size(); i++)
+        {
+
+            if (list.get(i) % 2 != 0 )
+            {
+                list.set(i, oddList.get(count));
+                count++;
+            }
+        }
+
+        return list;
     }
 
     /**
@@ -157,7 +199,21 @@ public class Assorted {
      *              uniqueNumber(1,100) returns [1,2,3,4,5,6,7,8,9,89]
      */
     public static List<Integer> uniqueNumber(int lowerBound, int upperBound) {
-        return null;
+        List<Integer> numbers = new ArrayList<Integer>();
+        for (int i = lowerBound; i<=upperBound; i++){
+            String num = "" + i;
+            int digits = num.length();
+            int added = 0;
+            for (int l = 0; l<digits; l++){
+                int temp = Integer.parseInt("" + num.charAt(l));
+                int add = (int) Math.pow(temp, l+1);
+                added = added + add;
+            }
+            if (added == i){
+                numbers.add(i);
+            }
+        }
+        return numbers;
     }
 
     /**
@@ -180,7 +236,23 @@ public class Assorted {
      *              filterNTimes([20,37,20,21], 1) returns [20,37,21]
      */
     public static List<Integer> filterNTimes(List<Integer> list, int n) {
-        return null;
+        ArrayList<Integer> uniqueVals = new ArrayList<>();
+        for (int i : list) {
+            if (!uniqueVals.contains(i))
+                uniqueVals.add(i);
+        }
+        for (int j : uniqueVals) {
+            int count = 0;
+            for (int k = 0; k < list.size(); k++) {
+                if (j == list.get(k)) {
+                    if (count < n)
+                        count++;
+                    else
+                        list.remove(k);
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -217,7 +289,25 @@ public class Assorted {
      *              ["WEST", "WEST"]
      */
     public static List<String> wildWest(List<String> directions) {
-        return null;
+        boolean complete = false;
+        while (!(complete)){
+            for (int i = 0; i<directions.size()-1;i++){
+                if (directions.get(i).equals("NORTH") && directions.get(i+1).equals("SOUTH") || directions.get(i).equals("SOUTH") && directions.get(i+1).equals("NORTH") || directions.get(i).equals("EAST") && directions.get(i+1).equals("WEST") || directions.get(i).equals("WEST") && directions.get(i+1).equals("EAST")){
+                    directions.remove(i);
+                    directions.remove(i);
+                    i--;
+                }
+            }
+
+            complete = true;
+            for (int i = 0; i<directions.size()-1;i++){
+                if (directions.get(i).equals("NORTH") && directions.get(i+1).equals("SOUTH") || directions.get(i).equals("SOUTH") && directions.get(i+1).equals("NORTH") || directions.get(i).equals("EAST") && directions.get(i+1).equals("WEST") || directions.get(i).equals("WEST") && directions.get(i+1).equals("EAST")){
+                    complete = false;
+                    break;
+                }
+            }
+        }
+        return directions;
     }
 
     /**
@@ -241,6 +331,36 @@ public class Assorted {
      *              queueTime([2,3,10], 2) returns 12
      */
     public static int queueTime(List<Integer> queue, int tillsOpen) {
-        return 0;
+        ArrayList<Integer> tills = new ArrayList<>();
+        int using = 0;
+        int totalTime = 0;
+        int remainingTime = 1;
+
+        while (using < tillsOpen) {
+            tills.add(queue.get(0));
+            queue.remove(0);
+            using++;
+        }
+
+        while (queue.size() > 0 || remainingTime > 0) {
+            remainingTime = 0;
+            totalTime++;
+            for (int i = 0; i < tills.size(); i++) {
+                if (tills.get(i) == 1) {
+                    if (queue.size() > 0) {
+                        tills.set(i, queue.get(0));
+                        queue.remove(0);
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                else {
+                    tills.set(i, tills.get(i) - 1);
+                }
+                remainingTime += tills.get(i);
+            }
+        }
+        return totalTime;
     }
 }
